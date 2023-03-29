@@ -1,11 +1,8 @@
-from book.models import Book
-from cart.models import Cart, CartItem
-from django.shortcuts import get_object_or_404, redirect, render
-from django.views.decorators.http import require_POST
-from .forms import UpdateQuantityForm
-from django.contrib.auth import decorators
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from .models import Cart, CartItem
+from book.models import Book
 
 @login_required
 def add_to_cart(request, book_id):
@@ -20,26 +17,21 @@ def add_to_cart(request, book_id):
 
 @login_required
 def cart_detail(request):
-    user_cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = user_cart.cartitem_set.all()
+    cart = Cart.objects.filter(user=request.user).first()
+    cart_items = cart.cartitem_set.all() if cart else []
+    total_price = 0
+    for item in cart_items:
+        total_price += item.get_item_price()
+    return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': total_price})
 
-    total_price = sum([item.book.price * item.quantity for item in cart_items])
-
-    context = {
-        'cart_items': cart_items,
-        'total_price': total_price,
-    }
-    return render(request, 'cart_detail.html', context)
-
+@login_required
 @require_POST
 def update_quantity(request, item_id):
-    item = get_object_or_404(CartItem, pk=item_id)
-    quantity = int(request.POST['quantity'])
-    if quantity > 0:
-        item.quantity = quantity
+    quantity = request.POST.get('quantity')
+    item = get_object_or_404(CartItem, id=item_id)
+    if quantity and quantity.isdigit() and int(quantity) > 0 and int(quantity) <= 10:
+        item.quantity = int(quantity)
         item.save()
-    else:
-        item.delete()
     return redirect('cart:cart_detail')
 
 @login_required
