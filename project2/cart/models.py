@@ -3,6 +3,7 @@ from book.models import Book
 from django.contrib.auth.models import User
 
 class Cart(models.Model):
+    cart_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_cart_total(self):
@@ -13,7 +14,7 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE,null=False)
     quantity = models.PositiveIntegerField(default=1)
 
     def get_item_price(self):
