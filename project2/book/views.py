@@ -18,7 +18,8 @@ def book_detail(request, pk):
     book = get_object_or_404(bookModel, pk=pk)
     return render(request, 'book_detail.html', {'book': book})
 
-@login_required
+@user_passes_test(lambda user: user.is_superuser)
+@login_required(login_url='User:login')
 def book_create(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
@@ -29,7 +30,8 @@ def book_create(request):
         form = BookForm()
     return render(request, 'form.html', {'form': form})
 
-@login_required
+@user_passes_test(lambda user: user.is_superuser)
+@login_required(login_url='User:login')
 def book_edit(request, pk):
     book = get_object_or_404(bookModel, pk=pk)
     if request.method == 'POST':
@@ -41,7 +43,8 @@ def book_edit(request, pk):
         form = BookForm(instance=book)
     return render(request, 'form.html', {'form': form})
 
-@login_required
+@user_passes_test(lambda user: user.is_superuser)
+@login_required(login_url='User:login')
 def book_delete(request, pk):
     book = get_object_or_404(bookModel, pk=pk)
     book.delete()
@@ -60,7 +63,8 @@ def get_book(request,id):
     books = bookModel.objects.filter(category_id = id)
     return render(request, 'book_list.html', {'books': books})
 
-@login_required
+@user_passes_test(lambda user: user.is_superuser)
+@login_required(login_url='User:login')
 def create_category(request):
     if request.method == 'POST':
         form = CategoryForm(request.POST)
@@ -70,8 +74,9 @@ def create_category(request):
     else:
         form = CategoryForm()
         return render(request, 'form.html', {'form': form})
-    
-@login_required
+
+@user_passes_test(lambda user: user.is_superuser)
+@login_required(login_url='User:login')
 def delete_category(request, id):
     category = get_object_or_404(categoryModel, category_id =id)
     category.delete()

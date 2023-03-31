@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 from .models import Cart, CartItem
 from book.models import Book
 
-@login_required
+@login_required(login_url='User:login')
 def add_to_cart(request, book_id):
     book = Book.objects.get(pk=book_id)
     user_cart, created = Cart.objects.get_or_create(user=request.user)
@@ -15,7 +15,7 @@ def add_to_cart(request, book_id):
         cart_item.save()
     return redirect('cart:cart_detail')
 
-@login_required
+@login_required(login_url='User:login')
 def cart_detail(request):
     cart = Cart.objects.filter(user=request.user).first()
     cart_items = cart.cartitem_set.all() if cart else []
@@ -24,7 +24,7 @@ def cart_detail(request):
         total_price += item.get_item_price()
     return render(request, 'cart_detail.html', {'cart_items': cart_items, 'total_price': total_price})
 
-@login_required
+@login_required(login_url='User:login')
 @require_POST
 def update_quantity(request, item_id):
     quantity = request.POST.get('quantity')
@@ -34,6 +34,7 @@ def update_quantity(request, item_id):
         item.save()
     return redirect('cart:cart_detail')
 
+@login_required(login_url='User:login')
 @login_required
 @require_POST
 def remove_from_cart(request, item_pk):

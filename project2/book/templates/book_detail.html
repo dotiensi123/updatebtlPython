@@ -7,6 +7,8 @@
   <p>Category: {{ book.category_id.name }}</p>
   <p>File: {{ book.file }}</p>
   <p>Image: <img = src = "{{ book.image.url}}"> </p>
-  <a href="{% url 'book:book_edit' book.pk %}">Edit</a> | 
-  <a href="{% url 'book:book_delete' book.pk %}">Delete</a> 
+  {% if request.user.is_superuser %}
+    <a href="{% url 'book:book_edit' book.pk %}">Edit</a> | 
+    <a href="{% url 'book:book_delete' book.pk %}">Delete</a>
+  {% endif %}
 {% endblock %}

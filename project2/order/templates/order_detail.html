@@ -10,12 +10,13 @@
   <h1>Order Detail</h1>
   <p>Order ID: {{ order.order_id }}</p>
   <p>Total: {{ order.total }}</p>
+  
   <ul>
     {% for item in cart_items %}
-      <li>{{ item.product.name }} - {{ item.quantity }}</li>
+      <li>{{ item.name }} - {{ item.quantity }}</li>
     {% endfor %}
   </ul>
-
+  {% if request.user.is_superuser %}
   <form method="post">
     {% csrf_token %}
     <label for="status">Status:</label>
@@ -25,4 +26,5 @@
     </select>
     <button type="submit">Save</button>
   </form>
+  {% endif %}
 {% endblock %}

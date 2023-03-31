@@ -9,7 +9,14 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <a href="{% url 'User:logout' %}">logout</a>
+        
+        {% if user.is_authenticated %}
+            <a href="{% url 'User:logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'User:login' %}">Login</a>
+            <a href="{% url 'User:register' %}">Register</a>
+        {% endif %}
+        
         <form method="GET" action="{% url 'book:book_search' %}">
             <input type="text" name="query" placeholder="Search by book name or author">
             <button type="submit">Search</button>

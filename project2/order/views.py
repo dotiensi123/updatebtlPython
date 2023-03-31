@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth.decorators import user_passes_test
 
-@login_required
+@login_required(login_url='User:login')
 def create_order(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -27,19 +27,33 @@ def create_order(request):
     else:
         form = OrderForm()
     return render(request, 'create_order.html', {'form': form})
-@login_required
+
+@login_required(login_url='User:login')
 def order_list(request):
     orders = Order.objects.filter(user=request.user).order_by('-order_id')
     return render(request, 'order_list.html', {'orders': orders})
 
 
-@login_required
+
+# def order_detail(request, order_id):
+#     order = get_object_or_404(Order, order_id=order_id)
+#     cart_items = CartItem.objects.filter(cart=order.cart)
+#     context = {
+#         'order': order,
+#         'cart_items': cart_items
+#     }
+#     if request.method == 'POST':
+#         order.status = request.POST.get('status')
+#         order.save()
+#     return render(request, 'order_detail.html', context)
+
+@login_required(login_url='User:login')
 def order_detail(request, order_id):
     order = get_object_or_404(Order, order_id=order_id)
     cart_items = CartItem.objects.filter(cart=order.cart)
     context = {
         'order': order,
-        'cart_items': cart_items
+        'cart_items': cart_items,
     }
     if request.method == 'POST':
         order.status = request.POST.get('status')

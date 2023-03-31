@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic import View
+from django.contrib.auth.decorators import login_required
 
 
 class registerUser(View):
@@ -55,3 +56,5 @@ class loginUser(View):
 def logoutUser(request):
     logout(request)
     return redirect('book:book_list')
+
+
