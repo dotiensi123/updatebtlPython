@@ -1,0 +1,31 @@
+{% extends 'baseBook.html' %}
+
+{% block content %}
+  <h1>Order Detail</h1>
+  <p><strong>Full Name:</strong> {{ order.full_name }}</p>
+  <p><strong>Date Created:</strong> {{ order.date_created }}</p> 
+  <p><strong>Phone Number:</strong> {{ order.phone_number }}</p>
+  <p><strong>Address:</strong> {{ order.address }}</p>
+  <hr>
+  <h2>Order Items:</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order_items %}
+        <tr>
+          <td>{{ item.book.title }}</td>
+          <td>{{ item.book.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.get_item_price }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

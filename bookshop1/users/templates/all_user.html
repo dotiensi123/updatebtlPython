@@ -1,0 +1,26 @@
+{% extends 'baseUser.html' %}
+{% block content %}
+<h1>All Users</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Phone Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user.id }}</td>
+            <td>{{ user.user.username }}</td>
+            <td>{{ user.user.email }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.phone_number }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

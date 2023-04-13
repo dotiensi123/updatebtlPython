@@ -1,0 +1,12 @@
+{% extends 'baseAuthor.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>{{ author.name }}</h1>
+    <p><strong>Country:</strong> {{ author.country }}</p>
+    <p><strong>Birth Year:</strong> {{ author.birth_year }}</p>
+    <p><strong>Description:</strong> {{ author.description }}</p>
+    <a href="{% url 'authors:update' pk=author.pk %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'authors:all_authors' %}" class="btn btn-secondary">Back to Authors</a>
+  </div>
+{% endblock %}

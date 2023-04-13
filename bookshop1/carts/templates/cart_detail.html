@@ -1,0 +1,56 @@
+{% extends 'baseBook.html' %}
+
+{% block content %}
+    <h1>Giỏ hàng của bạn</h1>
+    {% if cart_items %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên sách</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Tổng cộng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.book.title }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'cart:update_quantity' item.pk %}">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" min="1" value="{{ item.quantity }}" required>
+                                <button type="submit">Cập nhật</button>
+                            </form>
+                        </td>
+                        <td>{{ item.book.price }}</td>
+                        <td>{{ item.get_item_total }}</td>
+                        <td>
+                            <a href="{% url 'cart:remove_from_cart' item.pk %}">Xoá</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"></td>
+                    <td>
+                        Tổng tiền: {{ total_price }}
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <a href="{% url 'books:book_list' %}">Tiếp tục mua sắm</a>
+        </p>
+        <p>
+            <a href="{% url 'orders:create_order' %}">đặt hàng</a>
+        </p>
+    {% else %}
+        <p>Giỏ hàng của bạn rỗng.</p>
+        <p>
+            <a href="{% url 'books:book_list' %}">Mua sắm ngay</a>
+        </p>
+    {% endif %}
+
+{% endblock %}

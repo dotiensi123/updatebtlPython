@@ -1,0 +1,44 @@
+{% extends 'baseBook.html' %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Tên sách</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Tổng cộng</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+            <tr>
+                <td>{{ item.book.title }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.book.price }}</td>
+                <td>{{ item.get_item_total }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="3"></td>
+            <td>
+                Tổng tiền: {{ total_price }}
+            </td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+    <h2>Create Order</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="full_name">Full Name:</label>
+        <input type="text" name="full_name" id="full_name"><br>
+        <label for="phone_number">Phone Number:</label>
+        <input type="text" name="phone_number" id="phone_number"><br>
+        <label for="address">Address:</label>
+        <input type="text" name="address" id="address"><br>
+        <button type="submit">Create Order</button>
+    </form>
+{% endblock %}

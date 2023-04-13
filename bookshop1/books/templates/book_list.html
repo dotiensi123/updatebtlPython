@@ -1,0 +1,34 @@
+{% extends 'baseBook.html' %}
+
+{% block content %}
+<td><a href="{% url 'reviews:top_rated_books' %}" class="btn btn-secondary">top_rated_books</a></td>
+  <h1>Book List</h1>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author.name }}</td>
+          <td>{{ book.genre.name }}</td>
+          <td>{{ book.price }}</td>
+          <td>{{ book.stock }}</td>
+          <td><a href="{% url 'books:book_detail' book.id %}" class="btn btn-primary">Detail</a></td>
+          <td><a href="{% url 'books:book_edit' book.id %}" class="btn btn-secondary">Edit</a></td>
+          <td><a href="{% url 'books:book_delete' book.id %}" class="btn btn-danger">Delete</a></td>
+          <td><a href="{% url 'cart:add_to_cart' book.id%} "> add to cart </a> </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

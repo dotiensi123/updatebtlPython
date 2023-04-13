@@ -1,0 +1,32 @@
+{% extends 'baseAuthor.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1>All Authors</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Country</th>
+          <th>Birth Year</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for author in authors %}
+        <tr>
+          <td>{{ author.name }}</td>
+          <td>{{ author.country }}</td>
+          <td>{{ author.birth_year }}</td>
+          <td>
+            <a href="{% url 'authors:detail' pk=author.pk %}" class="btn btn-primary">View</a>
+            <a href="{% url 'authors:update' pk=author.pk %}" class="btn btn-success">Edit</a>
+            <a href="{% url 'authors:book' author.id %}"> details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{% url 'authors:create' %}" class="btn btn-primary">Add Author</a>
+  </div>
+{% endblock %}
