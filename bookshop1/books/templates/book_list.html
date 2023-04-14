@@ -10,7 +10,7 @@
         <th>Author</th>
         <th>Genre</th>
         <th>Price</th>
-        <th>Stock</th>
+        <th>image</th>
         <th></th>
         <th></th>
       </tr>
@@ -22,7 +22,7 @@
           <td>{{ book.author.name }}</td>
           <td>{{ book.genre.name }}</td>
           <td>{{ book.price }}</td>
-          <td>{{ book.stock }}</td>
+          <td><img = src = "{{ book.image.url}}"> </td>
           <td><a href="{% url 'books:book_detail' book.id %}" class="btn btn-primary">Detail</a></td>
           <td><a href="{% url 'books:book_edit' book.id %}" class="btn btn-secondary">Edit</a></td>
           <td><a href="{% url 'books:book_delete' book.id %}" class="btn btn-danger">Delete</a></td>

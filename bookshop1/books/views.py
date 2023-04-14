@@ -23,7 +23,7 @@ def book_list(request):
 @user_passes_test(lambda user: user.is_superuser)
 def book_create(request):
     if request.method == 'POST':
-        form = BookForm(request.POST)
+        form = BookForm(request.POST,request.FILES)
         if form.is_valid():
             book = form.save()
             return redirect('books:book_detail', pk=book.pk)
@@ -31,6 +31,7 @@ def book_create(request):
         form = BookForm()
     context = {'form': form}
     return render(request, 'book_create.html', context)
+
 
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
